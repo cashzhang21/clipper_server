@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	"time"
 )
 
 func PostClipboard(c *gin.Context) {
@@ -27,8 +28,8 @@ func PostClipboard(c *gin.Context) {
 			Data:    nil,
 		}
 		c.JSON(200, r)
-		fmt.Printf("clipboard: %s", clipboardText)
-		fmt.Println()
+		currentTime := time.Now()
+		fmt.Println(currentTime.Format("2006-01-02 15:04:05"), ": ", clipboardText)
 		return
 	}
 	c.JSON(200, &model.Response{
@@ -36,4 +37,8 @@ func PostClipboard(c *gin.Context) {
 		Message: "参数错误",
 		Data:    nil,
 	})
+}
+
+func GetClipboard(c *gin.Context) {
+
 }
