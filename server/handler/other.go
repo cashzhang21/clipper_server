@@ -2,9 +2,11 @@ package handler
 
 import (
 	"clipper_server/model"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"time"
 )
@@ -30,6 +32,15 @@ func PostClipboard(c *gin.Context) {
 		c.JSON(200, r)
 		currentTime := time.Now()
 		fmt.Println(currentTime.Format("2006-01-02 15:04:05"), ": ", clipboardText)
+
+		db, err := sql.Open("mysql", "root:/clipper")
+		if err != nil {
+			panic(err)
+		}
+		// See "Important settings" section.
+		db.SetConnMaxLifetime(time.Minute * 3)
+		db.SetMaxOpenConns(10)
+		db.SetMaxIdleConns(10)
 		return
 	}
 	c.JSON(200, &model.Response{

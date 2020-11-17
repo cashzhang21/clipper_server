@@ -3,12 +3,35 @@ package main
 import (
 	"clipper_server/model"
 	"clipper_server/server/handler"
+	"fmt"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"os"
 )
 
+const (
+	dbUser	string = "root"
+	dbPassword	string = "h9fjj8fKEL6w6PMY@"
+	dbHost		string = "127.0.0.1"
+	dbPort		int	   = 33060
+	dbName		string = "clipperdb"
+)
+
+var dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&&loc=Local&parseTime=true",
+	dbUser, dbPassword, dbHost, dbPort, dbName)
+
 func main() {
-	router := gin.New()
+
+	d, err := gorm.Open("mysql", dsn)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+
+	d.AutoMigrate()
+
+	router := gin.Default()
 	router.NoRoute(NoRoute)
 
 	router.Use(static.Serve("/", static.LocalFile("./static", false)))
