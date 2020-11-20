@@ -1,6 +1,6 @@
-package model
+package resp
 
-// Response .
+// Response
 type Response struct {
 	Code    int         `json:"errorno"`
 	Message string      `json:"errormsg"`

@@ -3,6 +3,7 @@
 *.a
 *.so
 clipper_server
+config/config.yaml
 
 # Folders
 _obj

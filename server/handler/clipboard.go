@@ -1,50 +1,50 @@
 package handler
 
 import (
-	"clipper_server/model"
-	"database/sql"
+	"clipper_server/models/entity"
+	"clipper_server/models/resp"
+	"clipper_server/service"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"time"
 )
 
-func PostClipboard(c *gin.Context) {
+func CreateClipboardMessage(c *gin.Context) {
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	var bodyData map[string]interface{}
 	if err := json.Unmarshal(body, &bodyData); err == nil {
 		clipboardText := bodyData["text"]
 		if clipboardText == "" || clipboardText == nil {
-			c.JSON(200, &model.Response{
-				Code:    1060003,
+			c.JSON(200, &resp.Response{
+				Code:    100501,
 				Message: "参数错误",
 				Data:    nil,
 			})
 			return
 		}
-		r := &model.Response{
-			Code:    0,
-			Message: "success",
-			Data:    nil,
-		}
-		c.JSON(200, r)
+
 		currentTime := time.Now()
 		fmt.Println(currentTime.Format("2006-01-02 15:04:05"), ": ", clipboardText)
-
-		db, err := sql.Open("mysql", "root:/clipper")
-		if err != nil {
-			panic(err)
+		msg := entity.Message{
+			Id:       0,
+			CreateAt: currentTime,
+			Text:     fmt.Sprintf("%s", clipboardText),
 		}
-		// See "Important settings" section.
-		db.SetConnMaxLifetime(time.Minute * 3)
-		db.SetMaxOpenConns(10)
-		db.SetMaxIdleConns(10)
+		result, err := service.SERVICE.CreateClipboardMessage(&msg)
+		if err != nil {
+			c.JSON(200, &resp.Response{
+				Code:    100601,
+				Message: "MySQL错误",
+				Data:    nil,
+			})
+		}
+		c.JSON(200, result)
 		return
 	}
-	c.JSON(200, &model.Response{
-		Code:    1060003,
+	c.JSON(200, &resp.Response{
+		Code:    100501,
 		Message: "参数错误",
 		Data:    nil,
 	})
