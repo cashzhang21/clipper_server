@@ -20,18 +20,18 @@ func Read(path string) *Config {
 	configFile, err := os.Open(path)
 	if err != nil {
 		fmt.Println("open config profile failed")
-		return nil
+		panic(err)
 	}
 	defer configFile.Close()
 	configData, err := ioutil.ReadAll(configFile)
 	if err != nil {
 		fmt.Println("read config profile failed")
-		return nil
+		panic(err)
 	}
 	err = yaml.Unmarshal(configData, Conf)
 	if err != nil {
 		fmt.Println("parse config profile failed")
-		return nil
+		panic(err)
 	}
 	return Conf
 }
