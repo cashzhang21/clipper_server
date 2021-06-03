@@ -10,6 +10,7 @@ import (
 
 type Config struct {
     Mysql *MysqlConfig `yaml:"mysql"`
+    Redis *RedisConfig `yaml:"redis"`
 }
 
 var (
@@ -55,4 +56,10 @@ type MysqlConfig struct {
     Active      int           `yaml:"active"`
     Idle        int           `yaml:"idle"`
     IdleTimeout time.Duration `yaml:"idleTimeout"`
+}
+
+type RedisConfig struct {
+    Addr     string `yaml:"host"`
+    Password string `yaml:"password"`
+    DB       int    `yaml:"db"`
 }

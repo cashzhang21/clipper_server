@@ -4,6 +4,7 @@ import (
     "clipper_server/config"
     "clipper_server/models/entity"
     "fmt"
+    "github.com/go-redis/redis"
     "github.com/jinzhu/gorm"
     "os"
     "strings"
@@ -11,17 +12,28 @@ import (
 
 type Dao struct {
     MySQL *gorm.DB
-    //Redis	*Redis
+    Redis *redis.Client
 }
 
 func New() (dao *Dao) {
     dao = &Dao{
         MySQL: mysqlClient(),
+        Redis: redisClient(),
     }
 
     return dao
 }
 
+func redisClient() (r *redis.Client) {
+    c := config.Conf.Redis
+    r = redis.NewClient(&redis.Options{
+        Addr:     c.Addr,
+        Password: c.Password,
+        DB:       c.DB,
+    })
+
+    return r
+}
 func mysqlClient() (mysql *gorm.DB) {
     c := config.Conf.Mysql
     dsnConfig := c.DSN
