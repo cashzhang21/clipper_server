@@ -21,7 +21,7 @@ func main() {
 
     v1 := router.Group("/v1")
     {
-        v1.GET("/clipboard", handler.GetClipboard)
+        v1.GET("/clipboard/:id", handler.GetClipboardMessage)
         v1.POST("/clipboard", handler.CreateClipboardMessage)
     }
 

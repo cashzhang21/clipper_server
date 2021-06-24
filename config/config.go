@@ -59,7 +59,33 @@ type MysqlConfig struct {
 }
 
 type RedisConfig struct {
-    Addr     string `yaml:"host"`
-    Password string `yaml:"password"`
-    DB       int    `yaml:"db"`
+    *PoolConfig `yaml:",inline"`
+    Proto string `yaml:"proto"`
+    DB int `yaml:"db"`
+    Endpoint *EndpointConfig `yaml:"endpoint"`
+    Auth string `yaml:"auth"`
+    MaxConnLifetime time.Duration `yaml:"maxConnLifetime"`
+    *RenderConfig `yaml:",inline"`
+}
+
+type PoolConfig struct {
+    Active int `yaml:"active"`
+    Idle int `yaml:"idle"`
+    IdleTimeout time.Duration `yaml:"idleTimeout"`
+    CheckTime time.Duration `yaml:"checkTime"`
+    Wait bool `yaml:"wait"`
+    ReadTimeout time.Duration `yaml:"readTimeout"`
+    WriteTimeout time.Duration `yaml:"writeTimeout"`
+    ConnectTimeout time.Duration `yaml:"connectTimeout"`
+}
+
+type RenderConfig struct {
+    Stdout bool `yaml:"stdout"`
+    StdoutPattern string `yaml:"stdoutPattern"`
+    OutDir string `yaml:"outDir"`
+    OutFile string `yaml:"outFile"`
+    OutPattern string `yaml:"outPattern"`
+    FileBufferSize int64 `yaml:"fileBufferSize"`
+    MaxLogFile int `yaml:"maxLogFile"`
+    RotateSize int64 `yaml:"rotateSize"`
 }
