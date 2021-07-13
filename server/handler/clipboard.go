@@ -37,7 +37,7 @@ func CreateClipboardMessage(c *gin.Context) {
     c.JSON(200, err2.ParamsError)
 }
 
-func GetClipboard(c *gin.Context) {
+func GetClipboardMessages(c *gin.Context) {
     clipboardTexts := service.SERVICE.GetClipboardMessages()
     c.JSON(200,  clipboardTexts)
 }
