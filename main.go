@@ -25,7 +25,7 @@ func main() {
         v1.POST("/clipboard", handler.CreateClipboardMessage)
     }
 
-    router.Run(":8614")
+    router.Run(":6143")
 }
 
 func NoRoute(c *gin.Context) {
