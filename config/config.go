@@ -5,6 +5,7 @@ import (
     "gopkg.in/yaml.v2"
     "io/ioutil"
     "os"
+    "time"
 )
 
 type Config struct {
@@ -37,10 +38,10 @@ func Read(path string) *Config {
     return Conf
 }
 
-/*type EndpointConfig struct {
+type EndpointConfig struct {
     Address string `yaml:"address"`
     Port    int    `yaml:"port"`
-}*/
+}
 
 /*type DSNConfig struct {
     UserName string          `yaml:"userName"`

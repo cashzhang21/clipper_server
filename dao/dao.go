@@ -22,8 +22,8 @@ func New() (dao *Dao) {
 func redisClient() (r *redis.Client) {
     c := config.Conf.Redis
     r = redis.NewClient(&redis.Options{
-        Addr:     c.Addr,
-        Password: c.Password,
+        Addr:     c.Endpoint.Address,
+        Password: c.Auth,
         DB:       c.DB,
     })
 
