@@ -21,11 +21,10 @@ func CreateClipboardMessage(c *gin.Context) {
             return
         }
 
-        currentTime := time.Now()
-        fmt.Println(currentTime.Format("2006-01-02 15:04:05"), ": ", clipboardText)
+        now := time.Now()
+        fmt.Println(now.Format("2006-01-02 15:04:05"), ": ", clipboardText)
         msg := entity.Message{
-            Id:       0,
-            CreateAt: currentTime,
+            CreateAt: now,
             Text:     fmt.Sprintf("%s", clipboardText),
         }
         result, err := service.SERVICE.CreateClipboardMessage(&msg)
@@ -38,7 +37,7 @@ func CreateClipboardMessage(c *gin.Context) {
     c.JSON(200, err2.ParamsError)
 }
 
-func GetClipboardMessage(c *gin.Context) {
-
-
+func GetClipboard(c *gin.Context) {
+    clipboardTexts := service.SERVICE.GetClipboardMessages()
+    c.JSON(200,  clipboardTexts)
 }

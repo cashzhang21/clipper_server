@@ -5,11 +5,10 @@ import (
     "gopkg.in/yaml.v2"
     "io/ioutil"
     "os"
-    "time"
 )
 
 type Config struct {
-    Mysql *MysqlConfig `yaml:"mysql"`
+    //Mysql *MysqlConfig `yaml:"mysql"`
     Redis *RedisConfig `yaml:"redis"`
 }
 
@@ -38,25 +37,25 @@ func Read(path string) *Config {
     return Conf
 }
 
-type EndpointConfig struct {
+/*type EndpointConfig struct {
     Address string `yaml:"address"`
     Port    int    `yaml:"port"`
-}
+}*/
 
-type DSNConfig struct {
+/*type DSNConfig struct {
     UserName string          `yaml:"userName"`
     Password string          `yaml:"password"`
     Endpoint *EndpointConfig `yaml:"endpoint"`
     DBName   string          `yaml:"dbName"`
     Options  []string        `yaml:"options"`
-}
+}*/
 
-type MysqlConfig struct {
+/*type MysqlConfig struct {
     DSN         *DSNConfig    `yaml:"dsn"`
     Active      int           `yaml:"active"`
     Idle        int           `yaml:"idle"`
     IdleTimeout time.Duration `yaml:"idleTimeout"`
-}
+}*/
 
 type RedisConfig struct {
     *PoolConfig `yaml:",inline"`

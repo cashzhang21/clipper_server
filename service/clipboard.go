@@ -7,11 +7,7 @@ import (
 
 func (s *Service) CreateClipboardMessage(messageEntity *entity.Message) (*resp.Response, error) {
 
-    err := s.dao.InsertClipboardText(messageEntity)
-    if err != nil {
-        return nil, err
-    }
-
+    s.dao.InsertClipboardText(messageEntity)
     r := &resp.Response{
         Code:    0,
         Message: "success",
@@ -19,4 +15,9 @@ func (s *Service) CreateClipboardMessage(messageEntity *entity.Message) (*resp.R
     }
 
     return r, nil
+}
+
+func (s *Service) GetClipboardMessages() []entity.Message {
+
+    return s.dao.GetClipboardTexts()
 }
